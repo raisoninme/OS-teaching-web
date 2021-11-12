@@ -20,7 +20,7 @@
             <el-form
             :model="form"
             status-icon
-            :rules="rules3"
+            :rules="rule"
             ref="form"
             class="loginform"
             >
@@ -99,7 +99,7 @@ export default {
         tel: "",
         smscode: ""
       },
-      rules3: {
+      rule: {
         pass: [{ validator: validatePass, trigger: 'blur' }],
         checkPass: [{ validator: validatePass2, trigger: 'change' }],
         tel: [{ validator: checkTel, trigger: 'change' }],

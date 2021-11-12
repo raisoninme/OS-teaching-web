@@ -20,7 +20,7 @@
             <el-form
               :model="form"
               status-icon
-              :rules="rules2"
+              :rules="rule"
               ref="form"
             >
             <el-form-item prop="name">
@@ -102,7 +102,7 @@ name: "Register",
         tel: "",
         smscode: ""
       },
-      rules2: {
+      rule: {
         name: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         pass: [{ validator: validatePass, trigger: 'blur' }],
         checkPass: [{ validator: validatePass2, trigger: 'change' }],
