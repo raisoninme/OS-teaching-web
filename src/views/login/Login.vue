@@ -16,7 +16,7 @@
               操作系统原理与实践课程教学平台
             </h1>
             <h2 style="text-align: center; font-weight:600">登录
-                <span style="font-size: 16px">没有账号？<span @click="gotoReg" class="registerline" style="pointer-events: none">点此注册</span></span>
+                <span style="font-size: 16px">没有账号？<span @click="gotoReg" class="registerline">点此注册</span></span>
             </h2>
           </div>
           <div class="two">
@@ -25,17 +25,18 @@
                       <el-radio v-model="form.role" label="1">学生</el-radio>
                       <el-radio v-model="form.role" label="2">老师</el-radio>
                 </el-form-item>
-                <el-form-item prop="id">
-                    <el-input v-model="form.id" 
-                    prefix-icon="el-icon-user"></el-input>
+                <el-form-item prop="name">
+                    <el-input v-model="form.name" 
+                    maxlength="10" show-word-limit
+                    prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
                 </el-form-item>
                 <el-form-item prop="pswd">
                     <el-input v-model="form.pswd"
                     prefix-icon="el-icon-key"
-                    type="password"
-                    show-password></el-input>
+                    type="password" maxlength="20"
+                    show-password placeholder="请输入密码"
+                    ></el-input>
                 </el-form-item>
-                <p style="text-align: right; font-size: 14px; font-weight:600;pointer-events: none"  @click="gotoFK" class="findkeyline" >忘记密码</p>
                 <el-form-item style="display: flex; justify-content:center">
                     <el-button plain style="width:300px" @click="onLogin('form')">登录</el-button>
                 </el-form-item>
@@ -51,16 +52,23 @@
 export default {
   name: 'Login',
   data() {
+    let validateName = (rule, value, callback) => {   
+      if (value === '') {
+        callback(new Error('请输入用户名'))
+      } else if (!this.checkName(value)) {
+        callback(new Error('用户名不合法，请检查用户名'))
+      } else {
+        callback()
+      }
+    };
     return {
       form: {
-        id: "",
+        name: "",
         password: "",
         role: '1',
       },
       rules: {
-          id: [
-              { required: true, message: '请输入id号', trigger: 'blur' }
-          ],
+          name: [{ validator: validateName, trigger: 'blur' }],
           pswd: [
               { required: true, message: '请输入密码', trigger: 'blur' }
           ]
@@ -97,8 +105,13 @@ export default {
     gotoReg() {
       this.$router.push('/Register')
     },
-    gotoFK() {
-      this.$router.push('/Findkey')
+    checkName(str) {
+      let re = /^[a-zA-Z]([a-zA-Z0-9_-]{0,10})+$/;
+      if (re.test(str)) {
+        return true;
+      } else {
+        return false; 
+      }
     }
   }
 };
@@ -153,17 +166,11 @@ export default {
   padding: 10px 25px 25px 25px;
 }
 /* 标题 */
-.registerline, .findkeyline {
+.registerline{
   color: #337AB7;
   font-style: italic;
 }
 .registerline:hover {
-    color:black;
-    font-style: italic;
-    text-decoration: underline;
-    cursor:pointer
-}
-.findkeyline:hover {
     color:black;
     font-style: italic;
     text-decoration: underline;

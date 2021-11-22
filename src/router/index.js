@@ -14,7 +14,6 @@ const router = new Router({
     {path: '/', redirect: '/introduce'},
     {path: '/login', name: 'Login', component: ()=>import('../views/login/Login')},
     {path: '/register', name:'Register', component: ()=>import('../views/login/Register')},
-    {path: '/findkey', name:'Findkey', component: ()=>import('../views/login/Findkey')},  
     {path: '/introduce', name:'Introduce', component: ()=>import('../views/Introduce')},
     {path: '/student', name: 'Student', component: ()=>import('../views/student/Student'),},
     {path: '/teacher', name: 'Teacher', component: ()=>import('../views/Teacher/Teacher'),},
