@@ -60,7 +60,7 @@ npm run build --report
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
-## 页面展示（11.12更新）
+## 页面展示（11.28更新）
 ![img](https://i.bmp.ovh/imgs/2021/11/6dc743f441c07a89.png)
 ![img](https://i.bmp.ovh/imgs/2021/11/6975446c36ea6170.png)
 ![img](https://s3.bmp.ovh/imgs/2021/11/938d2c462fe94064.png)
