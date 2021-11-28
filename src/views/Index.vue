@@ -1,33 +1,34 @@
 <template>
-	<div class="Index">
+	<div class="Index" style="height: 100%;">
 		<el-row style="height: 100%;">
-	  		<el-col :span="4"  style="min-height: 100%; background-color: #324057;">
-				<el-menu :default-active="defaultActive" style="min-height: 100%;" theme="dark" router>
-					<el-menu-item index="manage"><i class="el-icon-menu"></i>欢迎</el-menu-item>
+	  		<el-col :span="4" class="col">
+				<el-menu :default-active="defaultActive" 
+				style="height: 100%;border-right:0px" 
+				text-color="#bfcbd9"
+				background-color="#324057"
+				router
+				unique-opened
+				>
+					<el-menu-item index="index">
+						<i class="el-icon-s-management"></i>首页
+					</el-menu-item>
+					<el-menu-item index="classesInfo">
+						<i class="el-icon-document"></i>课程信息
+					</el-menu-item>
 					<el-submenu index="2">
-						<template slot="title"><i class="el-icon-document"></i>课程信息</template>
-						<el-menu-item index="shopList">教学大纲</el-menu-item>
-						<el-menu-item index="foodList">学习进度</el-menu-item>
-						<el-menu-item index="orderList">考试安排</el-menu-item>
+						<template slot="title"><i class="el-icon-reading"></i>作业辅导</template>
+                        <el-menu-item index="homeworkInfo">作业信息</el-menu-item>
+                        <el-menu-item index="homeworkBoard">师生交流</el-menu-item>
 					</el-submenu>
-					<el-submenu index="3">
-						<template slot="title"><i class="el-icon-plus"></i>作业辅导</template>
-                        <el-menu-item index="visitor">作业总览</el-menu-item>
-                        <el-menu-item index="visitor">师生交流</el-menu-item>
-					</el-submenu>
-					<el-submenu index="4">
-						<template slot="title"><i class="el-icon-star-on"></i>实验辅导</template>
-						<el-menu-item index="visitor">实验简介</el-menu-item>
-                        <el-menu-item index="visitor">实验说明</el-menu-item>
-					</el-submenu>
-					<el-submenu index="5">
-						<template slot="title"><i class="el-icon-edit"></i>留言板</template>
-                        <el-menu-item index="visitor">实验说明</el-menu-item>
-					</el-submenu>
-					<el-submenu index="7">
-						<template slot="title"><i class="el-icon-warning"></i>说明</template>
-						<el-menu-item index="explain">说明</el-menu-item>
-					</el-submenu>
+					<el-menu-item index="experiment">
+						<i class="el-icon-data-analysis"></i>实验辅导
+					</el-menu-item>
+					<el-menu-item index="massageBoard">
+						<i class="el-icon-chat-dot-round"></i>留言板
+					</el-menu-item>
+					<el-menu-item index="instruction">
+						<i class="el-icon-info"></i>说明
+					</el-menu-item>
 				</el-menu>
 			</el-col>
 			<el-col :span="20" style="height: 100%;overflow: auto;">
@@ -42,18 +43,18 @@
 <script>
     export default {
         name: 'Index',
-		// computed: {
-		// 	defaultActive: function(){
-		// 		return this.$route.path.replace('/', '');
-		// 	}
-		// },
+		computed: {
+			defaultActive: function(){
+				return this.$route.path.replace('/', '');
+			}
+		},
     }
 </script>
 
+<style scoped>
+.col {
+	background-color: #324057;
+	min-height: 100%;
 
-<style lang="less" scoped>
-	// @import '../style/mixin';
-	// .manage_page{
-		
-	// }
+}
 </style>

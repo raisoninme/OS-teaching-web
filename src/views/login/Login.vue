@@ -96,14 +96,14 @@ export default {
             message: '登录成功',
             type: 'success'
             });
-            this.$router.push('/Index')
+            this.$router.push('index')
           } else {
             return false;
           }
         });
       },
     gotoReg() {
-      this.$router.push('/Register')
+      this.$router.push('/register')
     },
     checkName(str) {
       let re = /^[a-zA-Z]([a-zA-Z0-9_-]{0,10})+$/;

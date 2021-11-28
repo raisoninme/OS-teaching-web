@@ -15,9 +15,17 @@ const router = new Router({
     {path: '/login', name: 'Login', component: ()=>import('../views/login/Login')},
     {path: '/register', name:'Register', component: ()=>import('../views/login/Register')},
     {path: '/introduce', name:'Introduce', component: ()=>import('../views/Introduce')},
-    {path: '/student', name: 'Student', component: ()=>import('../views/student/Student'),},
-    {path: '/teacher', name: 'Teacher', component: ()=>import('../views/Teacher/Teacher'),},
-    {path: '/index', name: 'Index', component: ()=>import('../views/Index'),}
+    {path: '/index', name: '', component: ()=>import('../views/Index'),
+     children: [
+      {path: '', name:'Home', component: ()=>import('../views/Home'),meta:[]},
+      {path: '/classesInfo', name:'ClassesInfo', component: ()=>import('../views/ClassesInfo'),meta:['课程信息']},
+      {path: '/homeworkInfo', name:'HomeworkInfo', component: ()=>import('../views/homework/HomeworkInfo'),meta:['作业辅导','作业信息']},
+      {path: '/homeworkBoard', name:'HomeworkBoard', component: ()=>import('../views/homework/HomeworkBoard'),meta:['作业辅导','作业交流']},
+      {path: '/experiment', name:'Experiment', component: ()=>import('../views/Experiment'),meta:['实验辅导']},
+      {path: '/massageBoard', name:'MassageBoard', component: ()=>import('../views/MassageBoard'),meta:['留言板']},
+      {path: '/instruction', name:'Instruction', component: ()=>import('../views/Instruction'),meta:['说明']},
+     ]
+    }
   ]
 })
 
