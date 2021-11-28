@@ -63,7 +63,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ## 页面展示（11.28更新）
 ![img](https://i.bmp.ovh/imgs/2021/11/6dc743f441c07a89.png)
 ![img](https://i.bmp.ovh/imgs/2021/11/6975446c36ea6170.png)
-![img](https://s3.bmp.ovh/imgs/2021/11/938d2c462fe94064.png)
 ![img](https://i.bmp.ovh/imgs/2021/11/745b6c490d8d5e3a.png)
 ![img](https://i.bmp.ovh/imgs/2021/11/c97754311bd5a0bd.png)
 ![img](https://i.bmp.ovh/imgs/2021/11/9f43dde4a1af72d4.png)
