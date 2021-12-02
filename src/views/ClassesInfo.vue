@@ -6,8 +6,7 @@
                 <div style="height:40px">
                     <span style="vertical-align:middle; float:inline-start; font-size:20px">课程列表</span>
                     <span style="vertical-align:middle; float:right">
-                        <el-button type="primary" @click="classObj = {}; 
-                        ClassFormIsShow = true" size="mini" v-if="!isStu">添加课程</el-button>
+                        <el-button type="primary" @click="touchAdd" size="mini" v-if="!isStu">添加课程</el-button>
                     </span>
                 </div> 
             <el-table
@@ -16,35 +15,36 @@
                 style="width: 100%">
                 <el-table-column
                     label="课程名称"
-                    width="200">
+                    width="190">
                     <template slot-scope="scope">
-                        <span class="divTest" 
+                        <!-- <span class="divTest" 
                             style="text-decoration: underline;" 
-                            @click="gotoDetail(scope.row)">{{scope.row.className}}</span> 
+                            @click="gotoDetail(scope.row)">{{scope.row.className}}</span>  -->
+                        <span class="list">{{scope.row.className}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="时间"
-                    width="200">
+                    width="190">
                     <template slot-scope="scope">
                         <span class="list">{{scope.row.classDate}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="地点"
-                    width="200">
+                    width="190">
                     <template slot-scope="scope">
                         <span class="list">{{scope.row.classPlace}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="发布时间"
-                    width="200">
+                    width="190">
                     <template slot-scope="scope">
                         <span class="list">{{scope.row.classReleaseTime}}</span>
                     </template>
                 </el-table-column>
-                <el-table-column label="操作">
+                <el-table-column label="操作" width="249">
                 <template slot-scope="scope">
                     <el-button
                         size="mini"
@@ -58,13 +58,12 @@
                         v-if="!isStu">删除</el-button>
                     <el-button
                         size="mini"
-                        @click="gotoDetail(scope.row)"
-                        v-else>查看</el-button> 
+                        @click="gotoDetail(scope.row)">查看</el-button> 
                 </template>
                 </el-table-column>
             </el-table>
 
-            <el-dialog title="添加课程" :visible.sync="ClassFormIsShow" width="80%">
+            <el-dialog :title="arr[state]" :visible.sync="ClassFormIsShow" width="50%">
                 <el-form :model="classObj" status-icon ref="classObj" label-width="100px">
                     <el-form-item label="课程名称">
                         <el-input v-model="classObj.className"
@@ -98,8 +97,10 @@
                     </el-form-item>
                 </el-form>
                 <div slot="footer" class="dialog-footer">
-                    <el-button @click="ClassFormIsShow = false">取 消</el-button>
-                    <el-button type="primary" @click="submitClassInfo(classObj)">提 交</el-button>
+                    <el-button @click="ClassFormIsShow = false; isAdd = true; clear()">取 消</el-button>
+                    <el-button type="primary" 
+                        @click="submitClassInfo(classObj)"
+                        v-if="state !== 0">提 交</el-button>
                 </div>
             </el-dialog>
             </div>    
@@ -114,7 +115,8 @@
             return{
                 isStu:false,
                 ClassFormIsShow: false,
-                isAdd: true,
+                state:0,
+                arr:['课程详情','编辑课程','添加课程'],
                 classesTable: [{
                     // ————————————连接后端后删除————————————————
                     classID:'001',
@@ -163,14 +165,20 @@
             headTop
         },
         methods: {
+            clear(){
+                this.state = 0
+                this.classObj = {}
+            },
             gotoDetail(classObj){
-                console.log('gotodetail', classObj)
-                // this.$router.push('/classesDetail')
-                let objData = JSON.stringify(classObj)
-                this.$router.push({
-                    path: './classesDetail',
-                    query:{allData: encodeURIComponent(objData)}
-                })
+                // console.log('gotodetail', classObj)
+                // // this.$router.push('/classesDetail')
+                // let objData = JSON.stringify(classObj)
+                // this.$router.push({
+                //     path: './classesDetail',
+                //     query:{allData: encodeURIComponent(objData)}
+                // })
+                this.ClassFormIsShow = true
+                this.classObj = classObj
             },
             format(fmt, date) { 
                 var o = {
@@ -214,6 +222,7 @@
                     //输出失败信息
                     this.$message.error('添加失败！');
                 }
+                this.clear()
             },
             //编辑课程
             editClassInfo(classObj){
@@ -237,17 +246,7 @@
                     //输出失败信息
                     this.$message.error('添加失败！');
                 }
-                this.isAdd = true
-            },
-            submitClassInfo(classObj){
-                if (this.isAdd) {this.addClassInfo(classObj)}
-                else{this.editClassInfo(classObj)}
-            },
-            touchEdit(index, classObj){
-                this.isAdd = false
-                this.ClassFormIsShow = true
-                this.classObj = classObj
-                this.index = index
+                this.clear()
             },
             //删除课程
             handleDelete(index, classObj){
@@ -270,7 +269,22 @@
                 }
 
             },
-            
+            submitClassInfo(classObj){
+                if (this.state === 2) {this.addClassInfo(classObj)}
+                else{this.editClassInfo(classObj)}
+            },
+            touchAdd(){
+                alert(this.$globalData.role); 
+                this.clear()
+                this.state = 2
+                this.ClassFormIsShow = true
+            },
+            touchEdit(index, classObj){
+                this.state = 1
+                this.ClassFormIsShow = true
+                this.classObj = classObj
+                this.index = index
+            },
         },
         mounted() {
             // ——————————从后端拉取课程列表信息——————————————
