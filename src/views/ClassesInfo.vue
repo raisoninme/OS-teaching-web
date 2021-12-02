@@ -18,9 +18,9 @@
                     label="课程名称"
                     width="200">
                     <template slot-scope="scope">
-                        <span style="margin-left: 10px;">
-                            <router-link to="/classesDetail" class="link">{{scope.row.className}}</router-link>
-                        </span>
+                        <span class="divTest" 
+                            style="text-decoration: underline;" 
+                            @click="gotoDetail(scope.row)">{{scope.row.className}}</span> 
                     </template>
                 </el-table-column>
                 <el-table-column
@@ -58,7 +58,7 @@
                         v-if="!isStu">删除</el-button>
                     <el-button
                         size="mini"
-                        @click="gotoDetail"
+                        @click="gotoDetail(scope.row)"
                         v-else>查看</el-button> 
                 </template>
                 </el-table-column>
@@ -112,7 +112,7 @@
     export default {
         data(){
             return{
-                isStu:true,
+                isStu:false,
                 ClassFormIsShow: false,
                 isAdd: true,
                 classesTable: [{
@@ -122,14 +122,14 @@
                     classDate:'2021/11/28 10:20:00',
                     classPlace:'二教201',
                     classReleaseTime:'2021/11/25 10:20:00',
-                    classIntroduce:''
+                    classIntroduce:'这里是U11的课程介绍'
                 }, {
                     classID:'002',
                     className:'U12.磁盘',
                     classDate:'2021/12/01 10:20:00',
                     classPlace:'二教201',
                     classReleaseTime:'2021/11/28 10:20:00',
-                    classIntroduce:''
+                    classIntroduce:'这里是U12的课程介绍'
                     // ——————————————————————————————————————————
                 }],
                 classObj:{
@@ -163,8 +163,14 @@
             headTop
         },
         methods: {
-            gotoDetail(){
-                this.$router.push('/classesDetail')
+            gotoDetail(classObj){
+                console.log('gotodetail', classObj)
+                // this.$router.push('/classesDetail')
+                let objData = JSON.stringify(classObj)
+                this.$router.push({
+                    path: './classesDetail',
+                    query:{allData: encodeURIComponent(objData)}
+                })
             },
             format(fmt, date) { 
                 var o = {
@@ -224,6 +230,7 @@
                         type: 'success'
                     });
                     this.classesTable[this.index] = classObj
+                    console.log('编辑完成', this.classesTable)
                     this.ClassFormIsShow = false
                 }
                 else {
@@ -285,5 +292,11 @@
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         color: #606266;
         font-size: 14px;
+    }
+
+    .divTest:hover{
+        font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+        font-size: 14px;
+        color: #6495ED;
     }
 </style>
