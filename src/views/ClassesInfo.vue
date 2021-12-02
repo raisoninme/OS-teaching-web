@@ -7,7 +7,7 @@
                     <span style="vertical-align:middle; float:inline-start; font-size:20px">课程列表</span>
                     <span style="vertical-align:middle; float:right">
                         <el-button type="primary" @click="classObj = {}; 
-                        ClassFormIsShow = true" size="mini">添加课程</el-button>
+                        ClassFormIsShow = true" size="mini" v-if="!isStu">添加课程</el-button>
                     </span>
                 </div> 
             <el-table
@@ -19,7 +19,7 @@
                     width="200">
                     <template slot-scope="scope">
                         <span style="margin-left: 10px;">
-                            <router-link  class="link">{{scope.row.className}}</router-link>
+                            <router-link to="/classesDetail" class="link">{{scope.row.className}}</router-link>
                         </span>
                     </template>
                 </el-table-column>
@@ -48,12 +48,18 @@
                 <template slot-scope="scope">
                     <el-button
                         size="mini"
-                    @click="touchEdit(scope.$index, scope.row)">编辑</el-button>
+                        @click="touchEdit(scope.$index, scope.row)"
+                        v-if="!isStu">编辑</el-button>
                     <el-button
                         size="mini"
                         type="danger"
                         plain
-                    @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                        @click="handleDelete(scope.$index, scope.row)"
+                        v-if="!isStu">删除</el-button>
+                    <el-button
+                        size="mini"
+                        @click="gotoDetail"
+                        v-else>查看</el-button> 
                 </template>
                 </el-table-column>
             </el-table>
@@ -106,6 +112,7 @@
     export default {
         data(){
             return{
+                isStu:true,
                 ClassFormIsShow: false,
                 isAdd: true,
                 classesTable: [{
@@ -156,6 +163,9 @@
             headTop
         },
         methods: {
+            gotoDetail(){
+                this.$router.push('/classesDetail')
+            },
             format(fmt, date) { 
                 var o = {
                     "M+": date.getMonth() + 1, //月份 
@@ -265,7 +275,6 @@
 
 <style>
     .link {
-        margin-left: 10px;
         color: #606266;
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         font-size: 14px;
@@ -273,7 +282,6 @@
     }
 
     .list {
-        margin-left: 10px;
         font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
         color: #606266;
         font-size: 14px;
