@@ -19,6 +19,7 @@ const router = new Router({
      children: [
       {path: '', name:'Home', component: ()=>import('../views/Home'),meta:[]},
       {path: '/classesInfo', name:'ClassesInfo', component: ()=>import('../views/ClassesInfo'),meta:['课程信息']},
+      {path: '/classesDetail', name:'ClassesDetail', component: ()=>import('../views/ClassesDetail'),meta:['课程信息','课程详情']},
       {path: '/homeworkInfo', name:'HomeworkInfo', component: ()=>import('../views/homework/HomeworkInfo'),meta:['作业辅导','作业信息']},
       {path: '/homeworkBoard', name:'HomeworkBoard', component: ()=>import('../views/homework/HomeworkBoard'),meta:['作业辅导','作业交流']},
       {path: '/experiment', name:'Experiment', component: ()=>import('../views/Experiment'),meta:['实验辅导']},
