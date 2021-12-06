@@ -12,6 +12,7 @@ import less from 'less'
 import api from '@/api/api'
 //import axios from 'axios'
 //import VueAxios from 'vue-axios'
+import globalData from './globalData.js'   //注意文件路径，实际路径以项目目录结构为准
 
 Vue.use(ElementUI)
 Vue.config.productionTip = false
@@ -21,6 +22,7 @@ Vue.use(less)
 Vue.prototype.$api = api
 //Vue.prototype.$http = axios
 
+Vue.prototype.$globalData = globalData;
 
 //axios.defaults.baseURL = 'http://192.168.2.197:3306/'
 
