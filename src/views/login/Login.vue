@@ -30,8 +30,8 @@
                     maxlength="10" show-word-limit
                     prefix-icon="el-icon-user" placeholder="请输入用户名"></el-input>
                 </el-form-item>
-                <el-form-item prop="pswd">
-                    <el-input v-model="form.pswd"
+                <el-form-item prop="password">
+                    <el-input v-model="form.password"
                     prefix-icon="el-icon-key"
                     type="password" maxlength="20"
                     show-password placeholder="请输入密码"
@@ -80,18 +80,20 @@ export default {
         this.$refs[formName].validate( async valid => {
           if (valid) {
             // 发送表单至后端，进行用户名密码核查
-            // const {data: res} = await this.$api.login.loginData(this.form.name,usrthis.form.pswd);
-            // if(res.meta.status !== 200){
-            //     return this.$message.error('登陆失败，请检查账户或密码');
-            // }
-            // else{
-            //     this.$message({
-            //     message: '登录成功',
-            //     type: 'success'
-            //     });
-            //     windows.sessionStorage.setItem("token",res.data.token);
-            //     this.$router.push("/Index");
-            // }
+            console.log('form', this.form)
+            const res = await this.$api.login.loginData(this.form.name,this.form.password);
+            if(res.code !== 200 || res.msg !== 'success'){
+                return this.$message.error('登陆失败，请检查账户或密码');
+            }
+            else{
+              console.log('res vue', res)
+                this.$message({
+                message: '登录成功',
+                type: 'success'
+                });
+                
+                this.$router.push("/Index");
+            }
             this.$message({
             message: '登录成功',
             type: 'success'

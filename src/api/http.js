@@ -21,11 +21,12 @@ switch(process.env.NODE_ENV) {
 }
 */
 
+axios.defaults.baseURL = 'http://localhost:8181'
 /*
  *设置超时时间和跨域是否允许携带凭证
  */
 axios.defaults.timeout = 10000;
-axios.defaults.withCredentials = true;
+axios.defaults.withCredentials = false;
 
 /*
  *设置请求传递数据的格式
