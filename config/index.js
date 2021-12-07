@@ -12,7 +12,7 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        target: 'http://192.168.31.250:8081/',//设置你调用的接口域名和端口号 别忘了加http
+        target: 'http://localhost:8181/',//设置你调用的接口域名和端口号 别忘了加http
         changeOrigin: true,
         pathRewrite: {
          '^/api': '/'
@@ -44,7 +44,20 @@ module.exports = {
     // https://vue-loader.vuejs.org/en/options.html#cachebusting
     cacheBusting: true,
 
-    cssSourceMap: true
+    cssSourceMap: true,
+    devServer:{
+      proxy:{
+          ["/dev-api"]:{
+          target:'http://localhost:20011',
+            changeOrigin:true,
+              pathRewrite: {
+                  ['^' + "/dev-ap"]: ''
+              }
+          }
+      }
+
+  }
+
   },
 
   build: {
