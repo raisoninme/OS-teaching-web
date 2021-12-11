@@ -4,15 +4,8 @@
         <div style="margin: 20px 200px 0 40px">
             <el-tabs :tab-position="tabPosition" style="height: 100%;">
                 <el-tab-pane v-for="(item,index) in hwlist" :key="index" :label="item">
-                    <div style="margin-left: 40px; margin-right: 40px">
-                        <p style="font-size:14px">请在此输入你的问题：</p>
-                        <el-input
-                        type="textarea"
-                        :rows="2"
-                        placeholder="请输入问题"
-                        v-model="textarea">
-                        </el-input>
-                    </div>
+                    <hwAsk v-if="role==='学生'"></hwAsk>
+                    <hwRep v-if="role==='老师'"></hwRep>
                 </el-tab-pane>
             </el-tabs>
         </div>       
@@ -21,18 +14,22 @@
 
 <script>
 import headTop from '../../components/HeadTop'
+import hwAsk from '../../components/HomeworkAsk.vue'
+import hwRep from '../../components/HomeworkRep.vue'
 export default {
     components: {
-        headTop
+        headTop,
+        hwAsk,
+        hwRep
     },
     data() {
         return {
+            role: this.$globalData.roleArr[this.$globalData.role],
             tabPosition:"left",
             hwlist: [
                 '进程调度作业1',
                 '进程调度作业2',
             ],
-            textarea: '',
         }
     },
     methods: {
@@ -41,5 +38,9 @@ export default {
 </script>
 
 <style>
-
+.reblock {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
+    border-radius: 2px;
+    margin-left: 20px;
+}
 </style>

@@ -14,7 +14,7 @@
                 </el-collapse>                
             </div>
             <el-divider></el-divider>
-            <div v-if="!isStu">
+            <div v-if="this.role==='老师'">
                 <p style="font-size:30px">发布新作业：</p>
                 <div style="margin: 20px">
                     <el-form ref="form" :model="form" label-width="80px">
@@ -56,7 +56,7 @@ export default {
     },
     data() {
         return {
-            isStu:false,
+            role: this.$globalData.roleArr[this.$globalData.role],
             activeNames: '0',
             // 从后台拉取
             allhw: [

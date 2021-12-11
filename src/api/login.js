@@ -1,8 +1,7 @@
 import axios from "./http"
 
 // 校验登陆数据
-async function loginData(usrname, password) {
-    
+async function loginData(usrname, password) {  
     var res = {}
     await axios.get('/studentlogin/' + usrname + '/' + password).then(response => {
         console.log('/login', response.data)

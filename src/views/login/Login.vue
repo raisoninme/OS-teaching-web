@@ -40,6 +40,7 @@
                 <el-form-item style="display: flex; justify-content:center">
                     <el-button plain style="width:300px" @click="onLogin('form')">登录</el-button>
                 </el-form-item>
+                <el-checkbox v-model="form.isAdm">管理员选项</el-checkbox>
             </el-form>
           </div>
         </div> 
@@ -65,7 +66,8 @@ export default {
       form: {
         name: "",
         password: "",
-        role: '1',
+        role: "",
+        isAdm: false,
       },
       rules: {
           name: [{ validator: validateName, trigger: 'blur' }],
@@ -80,7 +82,6 @@ export default {
         this.$refs[formName].validate( async valid => {
           if (valid) {
             // 发送表单至后端，进行用户名密码核查
-            console.log('form', this.form)
             const res = await this.$api.login.loginData(this.form.name,this.form.password);
             if(res.code !== 200 || res.msg !== 'success'){
                 return this.$message.error('登陆失败，请检查账户或密码');
@@ -91,14 +92,14 @@ export default {
                 message: '登录成功',
                 type: 'success'
                 });
-                
-                this.$router.push("/Index");
-            }
-            this.$message({
-            message: '登录成功',
-            type: 'success'
-            });
-            this.$router.push('index')
+                if(this.form.isAdm==true){
+                  this.$globalData.role="0";
+                }
+                else{
+                  this.$globalData.role=this.form.role;
+                }
+                this.$router.push("/Index"); 
+            }          
           } else {
             return false;
           }

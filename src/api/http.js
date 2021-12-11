@@ -4,22 +4,6 @@ import Vue from 'vue'
 import VueAxios from 'vue-axios'
 
 Vue.use(VueAxios, axios)
-//Vue.prototype.$qs = qs
-
-/*
- *根据环境变量设置服务器IP地址
- *
-switch(process.env.NODE_ENV) {
-  case "production":
-    axios.defaults.baseURL = "http://api.zfy.cn";
-    break;
-  case "test":
-    axios.defaults.baseURL = "http://127.0.0.1:3000";
-    break;
-  default:
-    axios.defaults.baseURL = "http://127.0.0.1:3000"
-}
-*/
 
 axios.defaults.baseURL = 'http://localhost:8181'
 /*

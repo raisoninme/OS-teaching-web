@@ -82,5 +82,5 @@ export default {
         color: cadetblue;
         letter-spacing:20px;
         margin-top: 20px;
-    }   
+    }  
 </style>

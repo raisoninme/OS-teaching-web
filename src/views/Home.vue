@@ -21,15 +21,15 @@
             <el-button type="primary" @click="dialogKeyFormVisible = true" size="mini">修改密码</el-button>
         </el-descriptions-item>
         <el-descriptions-item label="角色">
-            <el-tag size="small">{{role[0]}}</el-tag>
+            <el-tag size="small">{{role}}</el-tag>
         </el-descriptions-item>
-        <el-descriptions-item label="授课老师" v-if="isStu">
+        <el-descriptions-item label="授课老师" v-if="this.role==='学生'">
             {{teacherName}}
         </el-descriptions-item>
-        <el-descriptions-item label="所在班级" v-if="isStu">
+        <el-descriptions-item label="所在班级" v-if="this.role==='学生'">
             {{className}}
         </el-descriptions-item>
-        <el-descriptions-item label="授课班级" v-if="!isStu">
+        <el-descriptions-item label="授课班级" v-if="this.role==='老师'">
             <span v-for="(item,index) in this.classesName" :key="index">{{item}}</span>
         </el-descriptions-item>
         </el-descriptions>   
@@ -75,7 +75,7 @@
         </div>
         </el-dialog>
 
-        <div style="margin:20px 0 0 0">
+        <div style="margin:20px 0 0 0" v-if="this.role!='管理员'">
           <div style="height:40px">
             <span style="vertical-align:middle; float:inline-start; font-size:20px">最近课程</span>
           </div> 
@@ -98,6 +98,14 @@
                 label="上课地址">
                 </el-table-column>
             </el-table>
+        </div>
+        <div style="margin:40px 0 0 0" v-else>
+          <h4>管理员权限说明</h4>
+          <ul class="list">
+            <li>删除学生账号</li>
+            <li>删除不良留言</li>
+            <li>...</li>
+          </ul>
         </div>     
     </div>
   </div>
@@ -143,10 +151,7 @@ import headTop from '../components/HeadTop'
         dialogKeyFormVisible: false,
         // name，role均从token中获取
         name: "a123",
-        role: [
-            '学生',
-            '老师'
-        ],
+        role: this.$globalData.roleArr[this.$globalData.role],
         isStu:true,
         // 从后端获取以下数据
         teacherName:'陈佳',

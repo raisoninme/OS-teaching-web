@@ -23,9 +23,8 @@
               :rules="rule"
               ref="form"
             >
-            <el-form-item prop="role" style="display: flex; justify-content:center">
-              <el-radio v-model="form.role" label="1">学生</el-radio>
-              <el-radio v-model="form.role" label="2">老师</el-radio>
+            <el-form-item style="display: flex; justify-content:center">
+              <i class="el-icon-star-on">仅能注册学生</i>
             </el-form-item>
             <el-form-item prop="name">
               <el-popover
@@ -101,7 +100,6 @@ name: "Register",
         name: "",
         pass: "",
         checkPass: "",
-        role: '1',
       },
       rule: {
         name: [{ validator: validateName, trigger: 'blur' }],

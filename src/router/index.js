@@ -25,6 +25,7 @@ const router = new Router({
       {path: '/experiment', name:'Experiment', component: ()=>import('../views/Experiment'),meta:['实验辅导']},
       {path: '/massageBoard', name:'MassageBoard', component: ()=>import('../views/MassageBoard'),meta:['留言板']},
       {path: '/instruction', name:'Instruction', component: ()=>import('../views/Instruction'),meta:['说明']},
+      {path: '/manager', name:'Manager', component: ()=>import('../views/Manager'),meta:['管理员页面']},
      ]
     }
   ]
