@@ -1,34 +1,34 @@
 <template>
   <div style="margin-left: 40px; margin-right: 40px">
-        <p style="font-size:14px">请在此输入你的问题或上传图片：</p>
+        <p style="font-size:14px">请在此输入你的问题：</p>
         <el-input
         type="textarea"
         :rows="2"
         placeholder="请输入问题"
         v-model="textarea">
         </el-input>
-        <!-- updata the link to the server (action='') -->
-        <!-- <el-upload
-        class="upload-demo"
-        action="https://jsonplaceholder.typicode.com/posts/"
-        :on-change="handleChange"
-        :file-list="fileList">
-        <el-button size="small" type="primary">点击上传</el-button>
-        <div slot="tip" class="el-upload__tip">只能上传jpg/png文件，且不超过500kb</div>
-        </el-upload>
-            -->
-        <div style="margin-top:15px"><el-button type="primary" @click="submitUpload">点击发送提问</el-button></div>
-        <div style="margin-top:15px" v-if="isUp==true">
-            <div style="font-size:13px;margin-bottom:10px">
-                <p>您的问题：</p>
-                {{textarea}}
+        <div style="margin-top:15px"><el-button type="primary" @click="submitNewques">点击发送新问题</el-button></div>
+        <div style="margin-top:15px" class="quesList"  v-for="(ques,index) in quesList" :key="index">
+            <div style="padding:15px 15px 0 15px">
+                <p style="color:#409EFF;font-weight:bold">您的提问:</p>
+                <p style="color:#606266">{{ques.content}}</p>
             </div>
-            <el-divider content-position="left" v-if="relist.length==0">已发送问题给老师，请耐心等待</el-divider> 
-            <div class="reblock" v-for="(re,index) in relist" :key="index" v-else>
-                <span style="font:13px; margin-top:10px">{{re.name}}</span>
-                <span>&nbsp;回复:</span>
-                <p>{{re.content}}</p>
+            <el-divider content-position="left" v-if="ques.relist.length==0">已发送问题给老师，请耐心等待</el-divider> 
+            <div class="reblock" v-for="(re,index) in ques.relist" :key="index" v-else>
+                <div style="margin-bottom: 10px;color:#409EFF;font-weight:bold">
+                    <span>{{re.name}}({{re.role}})</span>
+                    <span>&nbsp;回复&nbsp;</span> 
+                    <span>{{re.repto}}:</span>
+                </div>
+                <p style="color:#606266">{{re.content}}</p>
+                <el-link type="primary" @click="reply(re.name,re.role)">回复</el-link>
+                <el-divider></el-divider>
             </div>  
+            <div class="reinput" v-show="ques.relist.length!=0">
+                <el-input type="textarea" :rows="2" v-model="reparea" :placeholder="repinfo"></el-input> 
+                <el-button type="primary" @click="submitRep" size="mini" style="margin-top:5px">回复</el-button>
+            </div>
+            <el-divider></el-divider>
         </div> 
     </div>
 </template>
@@ -37,53 +37,99 @@
 export default {
     data() {
         return {
-            isUp: false,
+            rep:false,
             textarea: '',
-            // 从后台获取
-            relist:[{
-                name:'老师',
-                content: '这你都不会？？'
-            }],
-            // fileList: [{
-            //     name: 'food.jpeg',
-            //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            //     }, {
-            //     name: 'food2.jpeg',
-            //     url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'
-            //     }],
+            reparea:'',
+            repinfo:'回复:',
+            //fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
+            // 从后台获取 传入学生name 得学生评价过的内容，以及每一条内容对应的回复
+            quesList: [{
+                content:"不会做作业",
+                relist:[{
+                    name:'陈佳',
+                    role:'老师',
+                    repto:'Sherry',
+                    content: '这你都不会？？',
+                },{
+                    name:'陈佳',
+                    role:'老师',
+                    repto:'Sherry',
+                    content:'明天上课收拾你'
+                },
+                {
+                    name:'Sherry',
+                    role:'同学',
+                    repto:'陈佳',
+                    content:'我错了老师'
+                }],
+            },
+            {
+                content:"学不会",
+                relist:[]
+            }]
         }
     },
     methods: {
-        submitUpload() {
-            // if(this.fileList.length!=0&&!(this.textarea=='' || this.textarea.replace(/(^\s*)|(\s*$)/g, "")=="")){
-            //     //upload the text to the server
-            //     this.$refs.upload.submit();
-            // }else if(!(this.textarea=='' || this.textarea.replace(/(^\s*)|(\s*$)/g, "")=="")){
-            //     //upload to the server
-            // }else if(this.fileList.length!=0){
-            //     this.$refs.upload.submit();
-            // }else{
-            //     flag=false;
-            //     this.$message({
-            //     message: 'please enter your question in the textarea or just upload the image',
-            //     });
-            // }
-            var flag=true;
+        handleRemove(file, fileList) {
+            console.log(file, fileList);
+        },
+        handlePreview(file) {
+            console.log(file);
+        },
+        reply(name,role){
+            this.repinfo="回复 "+name+"("+role+"):"
+        },
+        submitNewques() {
             if(this.textarea=='' || this.textarea.replace(/(^\s*)|(\s*$)/g, "")==""){
-                flag=false;
+                this.$message({
+                    message: '提问不能为空',
+                    type: 'warning'
+                    });
             }
-            if(flag){
-                this.isUp=true;
+            else{
+                //将textarea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的问题
                 this.$message({
                     message: '已成功提交问题给老师!',
                     type: 'success'
                     });
             }   
         },
+        submitRep(){
+            if(this.reparea=='' || this.reparea.replace(/(^\s*)|(\s*$)/g, "")==""){
+                this.$message({
+                    message: '回复不能为空',
+                    type: 'warning'
+                    });
+            }
+            else{
+                //将reparea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的回复
+                this.$message({
+                    message: '已成功回复!',
+                    type: 'success'
+                    });
+            } 
+        }
     }
 }
 </script>
 
-<style>
-
+<style scoped>
+.quesList {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04)
+}
+.reblock{
+    margin-left: 20px;
+    margin-right: 10px;
+    padding:8px 10px 2px 20px;
+}
+.reinput {
+    margin-left: 20px;
+    margin-right: 10px;
+    padding:8px 10px 2px 20px;
+}
+.reblock .el-divider--horizontal{
+     margin: 0;
+     background: 0 0;
+     border-top: 1px dashed #9f9fa0;
+ } 
 </style>

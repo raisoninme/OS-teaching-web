@@ -81,26 +81,36 @@ export default {
     onLogin(formName) {
         this.$refs[formName].validate( async valid => {
           if (valid) {
+            if(this.form.role==''&&this.form.isAdm==false){
+              this.$message.error('请选择一个角色登录');
+            }
+            else{
+              if(this.form.isAdm==true){
+                this.$globalData.role="0";
+              }
+              else{
+                this.$globalData.role=this.form.role;
+              }
             // 发送表单至后端，进行用户名密码核查
             const res = await this.$api.login.loginData(this.form.name,this.form.password);
             if(res.code !== 200 || res.msg !== 'success'){
                 return this.$message.error('登陆失败，请检查账户或密码');
             }
             else{
-              console.log('res vue', res)
+                console.log('res vue', res)
                 this.$message({
                 message: '登录成功',
                 type: 'success'
                 });
-                if(this.form.isAdm==true){
-                  this.$globalData.role="0";
-                }
-                else{
-                  this.$globalData.role=this.form.role;
-                }
                 this.$router.push("/Index"); 
-            }          
-          } else {
+            }       
+              // this.$message({
+              //     message: '登录成功',
+              //     type: 'success'
+              //     });
+              // this.$router.push("/Index");    
+            }
+          }else {
             return false;
           }
         });

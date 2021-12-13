@@ -4,6 +4,7 @@
         <div style="margin: 20px 200px 0 40px">
             <el-tabs :tab-position="tabPosition" style="height: 100%;">
                 <el-tab-pane v-for="(item,index) in hwlist" :key="index" :label="item">
+                    <!-- 将作业hwlist相应的item值传入子组件 -->
                     <hwAsk v-if="role==='学生'"></hwAsk>
                     <hwRep v-if="role==='老师'"></hwRep>
                 </el-tab-pane>
@@ -38,9 +39,4 @@ export default {
 </script>
 
 <style>
-.reblock {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .12), 0 0 6px rgba(0, 0, 0, .04);
-    border-radius: 2px;
-    margin-left: 20px;
-}
 </style>
