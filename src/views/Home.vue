@@ -150,7 +150,7 @@ import headTop from '../components/HeadTop'
         dialogNameFormVisible:false,
         dialogKeyFormVisible: false,
         // name，role均从token中获取
-        name: "a123",
+        name: this.$globalData.usrname,
         role: this.$globalData.roleArr[this.$globalData.role],
         isStu:true,
         // 从后端获取以下数据

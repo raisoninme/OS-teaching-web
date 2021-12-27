@@ -12,6 +12,7 @@
             <div style="padding:15px 15px 0 15px">
                 <p style="color:#409EFF;font-weight:bold">您的提问:</p>
                 <p style="color:#606266">{{ques.content}}</p>
+                <span class="time">{{ques.time}}</span>
             </div>
             <el-divider content-position="left" v-if="ques.relist.length==0">已发送问题给老师，请耐心等待</el-divider> 
             <div class="reblock" v-for="(re,index) in ques.relist" :key="index" v-else>
@@ -21,7 +22,8 @@
                     <span>{{re.repto}}:</span>
                 </div>
                 <p style="color:#606266">{{re.content}}</p>
-                <el-link type="primary" @click="reply(re.name,re.role)">回复</el-link>
+                <span class="time">{{re.time}}</span>
+                <div><el-link type="primary" @click="reply(re.name,re.role)" v-if="re.name!=usrname">回复</el-link></div>
                 <el-divider></el-divider>
             </div>  
             <div class="reinput" v-show="ques.relist.length!=0">
@@ -37,30 +39,34 @@
 export default {
     data() {
         return {
+            usrname:this.$globalData.usrname,
             rep:false,
             textarea: '',
             reparea:'',
             repinfo:'回复:',
-            //fileList: [{name: 'food.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}, {name: 'food2.jpeg', url: 'https://fuss10.elemecdn.com/3/63/4e7f3a15429bfda99bce42a18cdd1jpeg.jpeg?imageMogr2/thumbnail/360x360/format/webp/quality/100'}],
             // 从后台获取 传入学生name 得学生评价过的内容，以及每一条内容对应的回复
             quesList: [{
                 content:"不会做作业",
+                time: '2021/11/28 11:35:30',
                 relist:[{
                     name:'陈佳',
                     role:'老师',
                     repto:'Sherry',
                     content: '这你都不会？？',
+                    time: '2021/11/28 12:35:30',
                 },{
                     name:'陈佳',
                     role:'老师',
                     repto:'Sherry',
-                    content:'明天上课收拾你'
+                    content:'明天上课收拾你',
+                    time: '2021/11/28 15:35:30',
                 },
                 {
                     name:'Sherry',
                     role:'同学',
                     repto:'陈佳',
-                    content:'我错了老师'
+                    content:'我错了老师',
+                    time: '2021/11/28 18:35:30',
                 }],
             },
             {
@@ -131,5 +137,10 @@ export default {
      margin: 0;
      background: 0 0;
      border-top: 1px dashed #9f9fa0;
- } 
+} 
+.time {
+    font-size:4px;
+    font-style:italic;
+    color:#606266;
+}
 </style>

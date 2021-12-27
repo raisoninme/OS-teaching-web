@@ -85,6 +85,7 @@ export default {
               this.$message.error('请选择一个角色登录');
             }
             else{
+              this.$globalData.usrname=this.form.name;
               if(this.form.isAdm==true){
                 this.$globalData.role="0";
               }
@@ -92,23 +93,23 @@ export default {
                 this.$globalData.role=this.form.role;
               }
             // 发送表单至后端，进行用户名密码核查
-            const res = await this.$api.login.loginData(this.form.name,this.form.password);
-            if(res.code !== 200 || res.msg !== 'success'){
-                return this.$message.error('登陆失败，请检查账户或密码');
-            }
-            else{
-                console.log('res vue', res)
-                this.$message({
-                message: '登录成功',
-                type: 'success'
-                });
-                this.$router.push("/Index"); 
-            }       
-              // this.$message({
-              //     message: '登录成功',
-              //     type: 'success'
-              //     });
-              // this.$router.push("/Index");    
+            // const res = await this.$api.login.loginData(this.form.name,this.form.password);
+            // if(res.code !== 200 || res.msg !== 'success'){
+            //     return this.$message.error('登陆失败，请检查账户或密码');
+            // }
+            // else{
+            //     console.log('res vue', res)
+            //     this.$message({
+            //     message: '登录成功',
+            //     type: 'success'
+            //     });
+            //     this.$router.push("/Index"); 
+            // }       
+              this.$message({
+                  message: '登录成功',
+                  type: 'success'
+                  });
+              this.$router.push("/Index");    
             }
           }else {
             return false;
@@ -119,11 +120,14 @@ export default {
       this.$router.push('/register')
     },
     checkName(str) {
-      let re = /^[a-zA-Z]([a-zA-Z0-9_-]{0,10})+$/;
-      if (re.test(str)) {
+      let re1 = /^[a-zA-Z]([a-zA-Z0-9_-]{0,10})+$/;
+      let re2 = /[\u4E00-\u9FA5]/; 
+      if (re1.test(str)) {
         return true;
-      } else {
-        return false; 
+      }else if(re2.test(str)){
+        return true; 
+      }else{
+        return false;
       }
     }
   }
