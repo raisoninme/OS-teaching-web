@@ -44,8 +44,34 @@ async function findkeyData(pswd,tel){
     })
 }
 
+async function changeName(sid, newName, password){
+    var res = {}
+    console.log('changeName')
+
+    await axios.get('/student/changename/' + sid + '/' + newName+ '/' + password).then(response => {
+        console.log('/changename', response.data)
+        res = response
+    })
+    console.log('changename', res)
+    return res 
+}
+
+async function changepassword(sid, name, newPassword){
+    var res = {}
+    console.log('changepassword')
+
+    await axios.get('/student/changename/' + sid + '/' + name+ '/' + newPassword).then(response => {
+        console.log('/changepassword', response.data)
+        res = response
+    })
+    console.log('changepassword', res)
+    return res 
+}
+
 export default {
     loginData,
     registerData,
-    findkeyData
+    findkeyData,
+    changeName,
+    changepassword,
 }

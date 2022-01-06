@@ -95,6 +95,7 @@ export default {
             else{
               this.$globalData.role = this.form.role
               this.$globalData.usrname = res.data[0].name
+              this.$globalData.password = this.form.password
               if(this.$globalData.role === 0){
                 this.$globalData.sid = res.data[0].sid
               }
