@@ -22,8 +22,8 @@
           <div class="two">
             <el-form ref="form" :rules="rules" :model="form" class="loginform">
                 <el-form-item prop="role" style="display: flex; justify-content:center">
-                      <el-radio v-model="form.role" label="1">学生</el-radio>
-                      <el-radio v-model="form.role" label="2">老师</el-radio>
+                      <el-radio v-model="form.role" :label="1">学生</el-radio>
+                      <el-radio v-model="form.role" :label="2">老师</el-radio>
                 </el-form-item>
                 <el-form-item prop="name">
                     <el-input v-model="form.name" 
@@ -66,7 +66,7 @@ export default {
       form: {
         name: "",
         password: "",
-        role: "",
+        role: 0,
         isAdm: false,
       },
       rules: {
@@ -85,31 +85,28 @@ export default {
               this.$message.error('请选择一个角色登录');
             }
             else{
-              this.$globalData.usrname=this.form.name;
-              if(this.form.isAdm==true){
-                this.$globalData.role="0";
-              }
-              else{
-                this.$globalData.role=this.form.role;
-              }
+            if(this.form.isAdm==true) {this.form.role = 0}
             // 发送表单至后端，进行用户名密码核查
-            const res = await this.$api.login.loginData(this.form.name,this.form.password);
+            const res = await this.$api.login.loginData(this.form.name, this.form.password, this.form.role);
+            // const res = await this.$api.login.registerData(this.form.name, this.form.password);
             if(res.code !== 200 || res.msg !== 'success'){
-                return this.$message.error('登陆失败，请检查账户或密码');
+              return this.$message.error('登陆失败，请检查账户或密码');
             }
             else{
-                console.log('res vue', res)
-                this.$message({
-                message: '登录成功',
-                type: 'success'
-                });
-                this.$router.push("/Index"); 
-            }       
+              this.$globalData.role = this.form.role
+              this.$globalData.usrname = res.data[0].name
+              if(this.$globalData.role === 0){
+                this.$globalData.sid = res.data[0].sid
+              }
+              else{
+                this.$globalData.tid = res.data[0].tid
+              }
               this.$message({
-                  message: '登录成功',
-                  type: 'success'
-                  });
-              this.$router.push("/Index");    
+              message: '登录成功',
+              type: 'success'
+              });
+              this.$router.push("/Index")
+            }       
             }
           }else {
             return false;
