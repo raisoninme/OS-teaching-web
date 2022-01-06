@@ -38,7 +38,7 @@
               </el-form-item>
               <el-form-item prop="pass">
                 <el-input type="password"
-                v-model="form.pass" auto-complete="off"
+                v-model="form.password" auto-complete="off"
                 placeholder="设定密码，不超过20位" show-password
                 maxlength="20"></el-input>
               </el-form-item>
@@ -98,7 +98,7 @@ name: "Register",
     return {  
       form: {
         name: "",
-        pass: "",
+        password: "",
         checkPass: "",
       },
       rule: {
@@ -111,25 +111,50 @@ name: "Register",
   methods: {
     // <!--提交注册-->
     submitForm(formName) {
-      this.$refs[formName].validate(valid => {
-        if (valid) {
-          setTimeout(() => {
-            // const {data: res} = await this.$api.login.registerData(this.form.name,this.form.pass,this.form.tel);
-            // if(res.meta.status !== 200){
-            //     return this.$message.error('注册失败，该手机号或账号已被注册');
-            // }
+      this.$refs[formName].validate( async valid => {
+        if (valid) {          
+
+          var res = await this.$api.login.registerData(this.form.name, this.form.password);
+          
+          if(res.code !== 200 || res.msg !== 'success'){
+            return this.$message.error('注册失败，该用户名已被注册');
+          }
+          else{
             this.$message({
-            message: '注册成功',
-            type: 'success'
-            });
-          }, 400);
-          this.gotoLogin();
-        } else {
+              message: '注册成功',
+              type: 'success'
+            })
+            this.gotoLogin()
+          }   
+        }else {
           console.log("error submit!!");
           return false;
         }
       })
     },
+    onLogin(formName) {
+        this.$refs[formName].validate( async valid => {
+          if (valid) {
+            if(this.form.isAdm==true) {this.form.role = 0}
+            // 发送表单至后端，进行用户名密码核查
+            // const res = await this.$api.login.loginData(this.form.name, this.form.password, this.form.role);
+            const res = await this.$api.login.registerData(this.form.name, this.form.password);
+            if(res.code !== 200 || res.msg !== 'success'){
+              return this.$message.error('注册失败，该用户名已被注册');
+            }
+            else{
+              this.$message({
+              message: '注册成功',
+              type: 'success'
+            })
+            this.gotoLogin()
+            }       
+            
+          }else {
+            return false;
+          }
+        });
+      },
     // <!--进入登录页-->
     gotoLogin() {
       this.$router.push('/login');
