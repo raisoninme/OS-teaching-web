@@ -179,11 +179,11 @@ import headTop from '../components/HeadTop'
         },
         // tableData需要从数据库拉取
         tableData: [{
-          date: '2021-12-10',
+          date: '2022/01/05',
           class: '内存管理',
           address: '二教103'
         }, {
-          date: '2021-12-22',
+          date: '2022/01/06',
           class: 'linux介绍',
           address: '信软楼404'
         }]
@@ -199,17 +199,23 @@ import headTop from '../components/HeadTop'
       }
     },
     submitNameForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$message({
-            message: '修改用户名成功',
-            type: 'success'
-          });          
-          //向后台发送修改用户名请求
-          //
-          this.name=this.changeNameForm.newName;
-          this.$refs[formName].resetFields();
-          this.dialogNameFormVisible = false;
+          try {
+            const res = await this.$api.login.changeName(this.$globalData.sid, this.changeNameForm.newName, this.$globalData.password);
+          } catch (error) {
+            this.$message({
+              message: '修改用户名成功',
+              type: 'success'
+            });
+
+            this.name = this.changeNameForm.newName;
+            this.$globalData.usrname = this.changeNameForm.newName
+            console.log('用户名成功修改为:', this.$globalData.usrname)
+            this.$refs[formName].resetFields();
+            this.dialogNameFormVisible = false;
+          }
+
         } else {
           console.log('error submit!!');
           return false;
@@ -217,16 +223,22 @@ import headTop from '../components/HeadTop'
       });
     },
     submitKeyForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$message({
-            message: '修改密码成功',
-            type: 'success'
-          });          
-          //向后台发送修改密码请求
-          //
-          this.$refs[formName].resetFields();
-          this.dialogKeyFormVisible = false;
+          try {
+            // const res = await this.$api.login.changepassword(this.$globalData.sid, this.$globalData.usrname, this.changeKeyForm.pass);
+            const res = await this.$api.course.findLatestCourse();
+          } catch (error) {
+            this.$message({
+              message: '修改密码成功',
+              type: 'success'
+            });
+
+            this.$globalData.password = this.changeKeyForm.pass
+            console.log('密码成功修改为:', this.$globalData.password)
+            this.$refs[formName].resetFields();
+            this.dialogKeyFormVisible = false;
+          }
         } else {
           console.log('error submit!!');
           return false;
