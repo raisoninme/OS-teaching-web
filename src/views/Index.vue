@@ -26,11 +26,11 @@
 					<el-menu-item index="massageBoard">
 						<i class="el-icon-chat-dot-round"></i>留言板
 					</el-menu-item>
+					<el-menu-item index="Map">
+						<i class="el-icon-guide"></i>知识图谱
+					</el-menu-item>
 					<el-menu-item index="manager" v-if="this.role=='管理员'">
 						<i class="el-icon-s-tools"></i>管理员页面
-					</el-menu-item>
-					<el-menu-item index="instruction">
-						<i class="el-icon-info"></i>说明
 					</el-menu-item>
 				</el-menu>
 			</el-col>
