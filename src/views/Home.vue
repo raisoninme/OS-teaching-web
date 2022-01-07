@@ -201,20 +201,23 @@ import headTop from '../components/HeadTop'
     submitNameForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          try {
+              
             const res = await this.$api.login.changeName(this.$globalData.sid, this.changeNameForm.newName, this.$globalData.password);
-          } catch (error) {
-            this.$message({
-              message: '修改用户名成功',
-              type: 'success'
-            });
+            if(res.code !== 200 || res.msg !== 'success'){
+              return this.$message.error('修改密码，请检查');
+            }
+            else{
+              this.$message({
+                message: '修改用户名成功',
+                type: 'success'
+              });
 
-            this.name = this.changeNameForm.newName;
-            this.$globalData.usrname = this.changeNameForm.newName
-            console.log('用户名成功修改为:', this.$globalData.usrname)
-            this.$refs[formName].resetFields();
-            this.dialogNameFormVisible = false;
-          }
+              this.name = this.changeNameForm.newName;
+              this.$globalData.usrname = this.changeNameForm.newName
+              console.log('用户名成功修改为:', this.$globalData.usrname)
+              this.$refs[formName].resetFields();
+              this.dialogNameFormVisible = false;
+            }
 
         } else {
           console.log('error submit!!');
@@ -225,20 +228,24 @@ import headTop from '../components/HeadTop'
     submitKeyForm(formName) {
       this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          try {
-            // const res = await this.$api.login.changepassword(this.$globalData.sid, this.$globalData.usrname, this.changeKeyForm.pass);
-            const res = await this.$api.course.findLatestCourse();
-          } catch (error) {
-            this.$message({
-              message: '修改密码成功',
-              type: 'success'
-            });
+          // 调后端改密码
+            const res = await this.$api.login.changepassword(this.$globalData.sid, this.$globalData.usrname, this.changeKeyForm.pass);
+            if(res.code !== 200 || res.msg !== 'success'){
+              return this.$message.error('修改密码，请检查');
+            }
+            else{
+              this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              });
 
-            this.$globalData.password = this.changeKeyForm.pass
-            console.log('密码成功修改为:', this.$globalData.password)
-            this.$refs[formName].resetFields();
-            this.dialogKeyFormVisible = false;
-          }
+              this.$globalData.password = this.changeKeyForm.pass
+              console.log('密码成功修改为:', this.$globalData.password)
+              this.$refs[formName].resetFields();
+              this.dialogKeyFormVisible = false;
+            }
+            
+          // }
         } else {
           console.log('error submit!!');
           return false;
