@@ -35,14 +35,14 @@
                     label="联系方式"
                     >
                     <template slot-scope="scope">
-                        <span class="list">{{scope.row.phone}}</span>
+                        <span class="list">{{scope.row.phone === null ? '暂未填写' : scope.row.phone}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column
                     label="邮箱"
                     >
                     <template slot-scope="scope">
-                        <span class="list">{{scope.row.email}}</span>
+                        <span class="list">{{scope.row.email === null ? '暂未填写' : scope.row.email}}</span>
                     </template>
                 </el-table-column>
                 <el-table-column label="操作" >
@@ -51,8 +51,7 @@
                         size="mini"
                         type="danger"
                         plain
-                        @click="touchDelete(scope.$index, scope.row)"
-                        v-if="!isStu">删除</el-button>
+                        @click="touchDelete(scope.$index, scope.row)">删除</el-button>
                 </template>
                 </el-table-column>
             </el-table>
@@ -69,8 +68,7 @@
             <el-button
                 type="danger"
                 plain
-                @click="stuDelete()"
-                v-if="!isStu">删 除</el-button>
+                @click="stuDelete()">删 除</el-button>
         </span>
         </el-dialog>       
     </div>
@@ -87,28 +85,28 @@ export default {
             dialogVisible:false,
             index: -1,
             t_student:[
-                {
-                    sid:1,
-                    name:'林伊菡',
-                    password:'',
-                    phone:'13333333333',
-                    email:'1234567@gmail.com',
-                    gender:0,
-                    avatar:'',
-                    read_count:0,
-                    tid:0
-                },
-                {
-                    sid:2,
-                    name:'真可爱',
-                    password:'',
-                    phone:'13411111111',
-                    email:'7654321@gmail.com',
-                    gender:1,
-                    avatar:'',
-                    read_count:0,
-                    tid:0
-                }
+                // {
+                //     sid:1,
+                //     name:'林伊菡',
+                //     password:'',
+                //     phone:'13333333333',
+                //     email:'1234567@gmail.com',
+                //     gender:0,
+                //     avatar:'',
+                //     read_count:0,
+                //     tid:0
+                // },
+                // {
+                //     sid:2,
+                //     name:'真可爱',
+                //     password:'',
+                //     phone:'13411111111',
+                //     email:'7654321@gmail.com',
+                //     gender:1,
+                //     avatar:'',
+                //     read_count:0,
+                //     tid:0
+                // }
             ],
             studentObj:{}
         }
@@ -118,14 +116,26 @@ export default {
             this.index = -1
             this.studentObj = {}
         },
-        stuDelete(){
+        async findAll(){
+            const res = await this.$api.manager.findAll()
+            if(res.code !== 200 || res.msg !== 'success'){
+                console.log('管理员入口加载学生失败')
+            }
+            else{
+                console.log('管理员入口加载学生成功')
+                this.t_student.push.apply(this.t_student, res.data)
+                console.log('加载后的学生列表', this.t_student)
+            }
+        },
+        async stuDelete(){
             this.dialogVisible = false
             console.log('即将删除学生', this.studentObj)
             // ——————————————与后台交互——————————————
-
-            let isSuccess = true
-            // ————————————————————————————————————
-            if (isSuccess) {
+            const res = await this.$api.manager.studentDelete(this.studentObj.sid);
+            if(res.code !== 200 || res.msg !== 'success'){
+                this.$message.error('删除失败！');
+            }
+            else{
                 this.$message({
                     message: '删除成功！',
                     type: 'success'
@@ -133,9 +143,7 @@ export default {
                 this.t_student.splice(this.index,1)
                 this.clear()
             }
-            else {
-                this.$message.error('删除失败！');
-            }
+            // ————————————————————————————————————
             this.studentObj = {}
         },
         touchDelete(index, studentObj){
@@ -143,6 +151,9 @@ export default {
             this.index = index
             this.studentObj = studentObj
         }
+    },
+    mounted(){
+        this.findAll()
     }
 }
 </script>
