@@ -113,16 +113,18 @@ name: "Register",
     submitForm(formName) {
       this.$refs[formName].validate( async valid => {
         if (valid) {          
-          try {
-            // 调动
-            const res = await this.$api.login.registerData(this.form.name, this.form.password);
-          } catch (error) {
-            this.$message({
-              message: '注册成功',
-              type: 'success'
-            })
-            this.gotoLogin() 
+          // 调后端注册
+          const res = await this.$api.login.registerData(this.form.name, this.form.password);
+          if(res.code !== 200 || res.msg !== 'success'){
+            return this.$message.error('注册失败，请检查账户或密码');
           }
+          else{
+            this.$message({
+            message: '注册成功',
+            type: 'success'
+          })
+          }
+          
         }else {
           console.log("error submit!!");
           return false;
