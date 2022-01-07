@@ -94,10 +94,17 @@ export default {
             }
             else{
                 //将textarea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的问题
-                this.$message({
+                const res = this.$api.hwAsk.askQues('提出一个问题',this.textarea,this.$globalData.sid,'X老师');
+                if(res.code !== 200 || res.msg !== 'success'){
+                    console.log(res);
+                    return this.$message.error('请重试');
+                }
+                else{
+                    this.$message({
                     message: '已成功提交问题给老师!',
                     type: 'success'
                     });
+                }   
             }   
         },
         submitRep(){
