@@ -114,18 +114,26 @@ name: "Register",
       this.$refs[formName].validate( async valid => {
         if (valid) {          
           // 调后端注册
-          const res = await this.$api.login.registerData(this.form.name, this.form.password);
+          try {
+            const res = await this.$api.login.registerData(this.form.name, this.form.password);
           if(res.code !== 200 || res.msg !== 'success'){
-            return this.$message.error('注册失败，请检查账户或密码');
+            return this.$message.error('注册失败，可能是该用户名已被注册');
           }
           else{
             this.$message({
-            message: '注册成功',
-            type: 'success'
-          })
+              message: '注册成功',
+              type: 'success'
+            })
+            this.gotoLogin()
           }
-          
-        }else {
+          } catch (error) {
+            this.$message.error('注册失败，可能是该用户名已被注册');
+          } finally {
+
+          }
+
+        }
+        else {
           console.log("error submit!!");
           return false;
         }

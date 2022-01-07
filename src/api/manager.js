@@ -16,7 +16,7 @@ async function findAll() {
 async function studentDelete(sid) {  
     var res = {}
 
-    await axios.get('/student/delete/' + sid).then(response => {
+    await axios.delete('/student/delete/' + sid).then(response => {
         res = response
     })
     console.log('manager: delete student', res)
