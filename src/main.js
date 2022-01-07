@@ -24,8 +24,6 @@ Vue.prototype.$api = api
 
 Vue.prototype.$globalData = globalData;
 
-//axios.defaults.baseURL = 'http://192.168.2.197:3306/'
-
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

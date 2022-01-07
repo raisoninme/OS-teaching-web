@@ -56,9 +56,9 @@
     export default {
     	data(){
      		return {
-				newClassNum: 1,
-				hwRepNum: 0,
-				mgRepNum: 1,
+				newClassNum: 0,
+				hwRepNum: 1,
+				mgRepNum: 0,
 				rolePic:this.$globalData.roleArr[this.$globalData.role]
     		}
     	},
