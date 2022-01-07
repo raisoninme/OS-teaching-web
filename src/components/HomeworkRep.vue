@@ -93,7 +93,7 @@ export default {
                 name:'sherry',
                 time: '2021/11/28 11:35:30',//原提问
                 relist:[{
-                    name:'X',
+                    name:'teacher',
                     role:'老师',
                     repto:'sherry',
                     content: '这你都不会？？',
@@ -101,7 +101,7 @@ export default {
                 },{
                 name:'sherry',
                 role:'学生',
-                repto:'X',
+                repto:'teacher',
                 content:'确实不会',
                 time: '2021/11/28 12:35:30'
                 }
@@ -136,7 +136,7 @@ export default {
             }
             else{
                 var mytime=(new Date()).toLocaleString('chinese',{hour12:false});
-                this.historyList[Index].relist.push({name:'X',role:'老师',repto:'sherry',content:this.reparea,time:mytime});
+                this.historyList[Index].relist.push({name:'teacher',role:'老师',repto:'sherry',content:this.reparea,time:mytime});
                 //将reparea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的回复
                 this.$message({
                     message: '已成功回复!',

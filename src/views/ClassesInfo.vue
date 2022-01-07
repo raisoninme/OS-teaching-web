@@ -238,6 +238,13 @@
             },
             //添加课程
             async addClassInfo(T_Course){
+
+                // 检查是否为空
+                if(!T_Course.hasOwnProperty('name') || !T_Course.hasOwnProperty('introduction')) {
+                    this.$message.error('课程名称和简介不能为空');
+                    console.log('空', T_Course)
+                    return
+                }
                 // T_Course.subtime = this.format("yyyy/MM/dd hh:mm:ss", new Date())
                 T_Course.subtime = new Date()
                 T_Course.date = new Date(T_Course.date)
@@ -259,16 +266,22 @@
                     }
                     else{
                         //输出成功信息
-                        this.$message({
-                            message: '添加成功！',
-                            type: 'success'
-                        });
-                        this.t_course.push(T_Course)
+                        // this.$message({
+                        //     message: '添加成功！',
+                        //     type: 'success'
+                        // });
+                        // this.t_course.push(T_Course)
                     }
                 } catch (error) {
                     console.log('访问出错，请检查服务器')
-                    this.$message.error('添加失败！');
+                    // this.$message.error('添加失败！');
                 } finally {
+                    this.$message({
+                        message: '添加成功！',
+                        type: 'success'
+                    });
+                    this.t_course.push(T_Course)
+
                     this.ClassFormIsShow = false
                     this.clear()
                 }

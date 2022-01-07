@@ -137,7 +137,8 @@ export default {
             console.log('新增实验',this.T_Exercise)
 
             // 检查必要值不能为空
-            if(this.T_Exercise.title === '' || this.T_Exercise.introduction === ''){
+            // !T_Course.hasOwnProperty('name') || !T_Course.hasOwnProperty('introduction')
+            if(!this.T_Exercise.hasOwnProperty('title') || !this.T_Exercise.hasOwnProperty('introduction')){
                 this.$message.error('添加失败，实验标题和简介不能为空！');
                 return
             }
