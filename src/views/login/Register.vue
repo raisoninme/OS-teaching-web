@@ -113,11 +113,11 @@ name: "Register",
     submitForm(formName) {
       this.$refs[formName].validate( async valid => {
         if (valid) {          
-
-          var res = await this.$api.login.registerData(this.form.name, this.form.password);
-          
+          // 调后端注册
+          try {
+            const res = await this.$api.login.registerData(this.form.name, this.form.password);
           if(res.code !== 200 || res.msg !== 'success'){
-            return this.$message.error('注册失败，该用户名已被注册');
+            return this.$message.error('注册失败，可能是该用户名已被注册');
           }
           else{
             this.$message({
@@ -125,36 +125,20 @@ name: "Register",
               type: 'success'
             })
             this.gotoLogin()
-          }   
-        }else {
+          }
+          } catch (error) {
+            this.$message.error('注册失败，可能是该用户名已被注册');
+          } finally {
+
+          }
+
+        }
+        else {
           console.log("error submit!!");
           return false;
         }
       })
     },
-    onLogin(formName) {
-        this.$refs[formName].validate( async valid => {
-          if (valid) {
-            if(this.form.isAdm==true) {this.form.role = 0}
-            // 发送表单至后端，进行用户名密码核查
-            // const res = await this.$api.login.loginData(this.form.name, this.form.password, this.form.role);
-            const res = await this.$api.login.registerData(this.form.name, this.form.password);
-            if(res.code !== 200 || res.msg !== 'success'){
-              return this.$message.error('注册失败，该用户名已被注册');
-            }
-            else{
-              this.$message({
-              message: '注册成功',
-              type: 'success'
-            })
-            this.gotoLogin()
-            }       
-            
-          }else {
-            return false;
-          }
-        });
-      },
     // <!--进入登录页-->
     gotoLogin() {
       this.$router.push('/login');

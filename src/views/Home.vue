@@ -80,7 +80,7 @@
             <span style="vertical-align:middle; float:inline-start; font-size:20px">最近课程</span>
           </div> 
             <el-table
-                :data="tableData"
+                :data="t_course"
                 border
                 style="width: 100%">
                 <el-table-column
@@ -178,12 +178,12 @@ import headTop from '../components/HeadTop'
           ],
         },
         // tableData需要从数据库拉取
-        tableData: [{
-          date: '2021-12-10',
+        t_course: [{
+          date: '2022/01/05',
           class: '内存管理',
           address: '二教103'
         }, {
-          date: '2021-12-22',
+          date: '2022/01/06',
           class: 'linux介绍',
           address: '信软楼404'
         }]
@@ -199,17 +199,31 @@ import headTop from '../components/HeadTop'
       }
     },
     submitNameForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$message({
-            message: '修改用户名成功',
-            type: 'success'
-          });          
-          //向后台发送修改用户名请求
-          //
-          this.name=this.changeNameForm.newName;
-          this.$refs[formName].resetFields();
-          this.dialogNameFormVisible = false;
+
+          try {
+            const res = await this.$api.login.changeName(this.$globalData.sid, this.changeNameForm.newName, this.$globalData.password);
+            if(res.code !== 200 || res.msg !== 'success'){
+              return this.$message.error('修改用户名失败，可能是该用户名已被注册');
+            }
+            else{
+              this.$message({
+                message: '修改用户名成功',
+                type: 'success'
+              });
+
+              this.name = this.changeNameForm.newName;
+              this.$globalData.usrname = this.changeNameForm.newName
+              console.log('用户名成功修改为:', this.$globalData.usrname)
+            }
+          } catch (error) {
+            this.$message.error('修改用户名失败，请检查服务器');
+          } finally {
+            this.$refs[formName].resetFields();
+            this.dialogNameFormVisible = false;
+          }
+
         } else {
           console.log('error submit!!');
           return false;
@@ -217,16 +231,31 @@ import headTop from '../components/HeadTop'
       });
     },
     submitKeyForm(formName) {
-      this.$refs[formName].validate((valid) => {
+      this.$refs[formName].validate(async (valid) => {
         if (valid) {
-          this.$message({
-            message: '修改密码成功',
-            type: 'success'
-          });          
-          //向后台发送修改密码请求
-          //
-          this.$refs[formName].resetFields();
-          this.dialogKeyFormVisible = false;
+          // 调后端改密码
+
+          try {
+            const res = await this.$api.login.changepassword(this.$globalData.sid, this.$globalData.usrname, this.changeKeyForm.pass);
+            if(res.code !== 200 || res.msg !== 'success'){
+              return this.$message.error('修改密码失败');
+            }
+            else{
+              this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              });
+
+              this.$globalData.password = this.changeKeyForm.pass
+              console.log('密码成功修改为:', this.$globalData.password)
+            }
+          } catch (error) {
+            this.$message.error('修改密码失败，请检查服务器');
+          } finally {
+            this.$refs[formName].resetFields();
+              this.dialogKeyFormVisible = false;
+          }
+            
         } else {
           console.log('error submit!!');
           return false;
@@ -241,6 +270,21 @@ import headTop from '../components/HeadTop'
       // 删除token代码
       this.$router.push({name: 'Login'});
     },
+    async findLatestCourse() {
+      // 调后端改密码
+      const res = await this.$api.course.findLatestCourse()
+      if(res.code !== 200 || res.msg !== 'success'){
+          console.log('加载最近两周课程失败')
+      }
+      else{
+          console.log('加载最近两周课程成功')
+          this.t_course.push.apply(this.t_course, res.data)
+          console.log('加载后的最近两周课程列表', this.t_course)
+      }
+    }, 
+    },
+    mounted(){
+        this.findLatestCourse()
     }
   }
 </script>
