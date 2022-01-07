@@ -8,7 +8,7 @@
         v-model="textarea">
         </el-input>
         <div style="margin-top:15px"><el-button type="primary" @click="submitNewques">点击发送新问题</el-button></div>
-        <div style="margin-top:15px" class="quesList"  v-for="(ques,index) in quesList" :key="index">
+        <div style="margin-top:15px" class="quesList"  v-for="(ques,Index) in quesList" :key="Index">
             <div style="padding:15px 15px 0 15px">
                 <p style="color:#409EFF;font-weight:bold">您的提问:</p>
                 <p style="color:#606266">{{ques.content}}</p>
@@ -28,7 +28,7 @@
             </div>  
             <div class="reinput" v-show="ques.relist.length!=0">
                 <el-input type="textarea" :rows="2" v-model="reparea" :placeholder="repinfo"></el-input> 
-                <el-button type="primary" @click="submitRep" size="mini" style="margin-top:5px">回复</el-button>
+                <el-button type="primary" @click="submitRep(Index)" size="mini" style="margin-top:5px">回复</el-button>
             </div>
             <el-divider></el-divider>
         </div> 
@@ -49,29 +49,12 @@ export default {
                 content:"不会做作业",
                 time: '2021/11/28 11:35:30',
                 relist:[{
-                    name:'陈佳',
+                    name:'X',
                     role:'老师',
-                    repto:'Sherry',
+                    repto:'sherry',
                     content: '这你都不会？？',
                     time: '2021/11/28 12:35:30',
-                },{
-                    name:'陈佳',
-                    role:'老师',
-                    repto:'Sherry',
-                    content:'明天上课收拾你',
-                    time: '2021/11/28 15:35:30',
-                },
-                {
-                    name:'Sherry',
-                    role:'同学',
-                    repto:'陈佳',
-                    content:'我错了老师',
-                    time: '2021/11/28 18:35:30',
                 }],
-            },
-            {
-                content:"学不会",
-                relist:[]
             }]
         }
     },
@@ -94,20 +77,22 @@ export default {
             }
             else{
                 //将textarea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的问题
-                const res = this.$api.hwAsk.askQues('提出一个问题',this.textarea,this.$globalData.sid,'X老师');
-                if(res.code !== 200 || res.msg !== 'success'){
-                    console.log(res);
-                    return this.$message.error('请重试');
-                }
-                else{
+                // const res = this.$api.hwAsk.askQues('raise_a_quesion!',this.textarea,this.$globalData.sid,'teacher_1');
+                // if(res.code !== 200 || res.msg !== 'success'){
+                //     console.log(res);
+                //     return this.$message.error('请重试');
+                // }
+                // else{
+                    var mytime=(new Date()).toLocaleString('chinese',{hour12:false});
+                    this.quesList.unshift({content:this.textarea,time:mytime,relist:[]})
                     this.$message({
                     message: '已成功提交问题给老师!',
                     type: 'success'
                     });
-                }   
+                // }   
             }   
         },
-        submitRep(){
+        submitRep(Index){
             if(this.reparea=='' || this.reparea.replace(/(^\s*)|(\s*$)/g, "")==""){
                 this.$message({
                     message: '回复不能为空',
@@ -116,6 +101,8 @@ export default {
             }
             else{
                 //将reparea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的回复
+                var mytime=(new Date()).toLocaleString('chinese',{hour12:false});
+                this.quesList[Index].relist.push({name:'sherry',role:'学生',repto:'X',content:this.reparea,time:mytime});
                 this.$message({
                     message: '已成功回复!',
                     type: 'success'

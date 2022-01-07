@@ -6,7 +6,7 @@
                 <div style="height:40px">
                     <span style="vertical-align:middle; float:inline-start; font-size:20px">课程列表</span>
                     <span style="vertical-align:middle; float:right">
-                        <el-button type="primary" @click="touchAdd" size="mini" v-if="!isStu">添加课程</el-button>
+                        <el-button type="primary" @click="touchAdd" size="mini" v-if="role!='学生'">添加课程</el-button>
                     </span>
                 </div> 
             <el-table
@@ -136,7 +136,7 @@
     export default {
         data(){
             return{
-                isStu:false,
+                role:this.$globalData.roleArr[this.$globalData.role],
                 ClassFormIsShow: false,
                 dialogVisible: false,
                 state:0,

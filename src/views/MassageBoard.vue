@@ -77,7 +77,8 @@ export default {
           return;
       }
     //   头插法添加新元素到allmessages中 name需要从token中读取
-      this.allmessages.unshift({memberName:this.name,content:this.textForm.message,createTime:'2021/11/28 11:42:10',praiseNum:0,isUp:false});
+      var mytime=(new Date()).toLocaleString('chinese',{hour12:false}); 
+      this.allmessages.unshift({memberName:this.name,content:this.textForm.message,createTime:mytime,praiseNum:0,isUp:false});
       this.$refs["textForm"].resetFields();
     //    这里往下写调用后端的代码；
     },

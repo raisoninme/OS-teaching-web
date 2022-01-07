@@ -36,7 +36,7 @@
                 <el-input slot="reference" v-model="form.name" auto-complete="off" placeholder="请自定义用户名"  maxlength="10" show-word-limit></el-input>
               </el-popover>
               </el-form-item>
-              <el-form-item prop="pass">
+              <el-form-item prop="password">
                 <el-input type="password"
                 v-model="form.password" auto-complete="off"
                 placeholder="设定密码，不超过20位" show-password
@@ -89,7 +89,7 @@ name: "Register",
     let validatePass2 = (rule, value, callback) => {
       if (value === "") {
         callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.pass) {
+      } else if (value !== this.form.password) {
         callback(new Error("两次输入密码不一致!"));
       } else {
         callback();
@@ -103,7 +103,7 @@ name: "Register",
       },
       rule: {
         name: [{ validator: validateName, trigger: 'blur' }],
-        pass: [{ validator: validatePass, trigger: 'blur' }],
+        password: [{ validator: validatePass, trigger: 'blur' }],
         checkPass: [{ validator: validatePass2, trigger: 'change' }],
       }
     }
