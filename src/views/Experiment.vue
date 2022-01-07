@@ -38,7 +38,7 @@
                         <el-input type="textarea" v-model="T_Exercise.introduction" :autosize="{ minRows: 4 }" placeholder="请输入实验简介"></el-input>
                     </el-form-item>
                     <el-form-item>
-                        <el-button type="primary" @click="onSubmitExercise">发布作业</el-button>
+                        <el-button type="primary" @click="onSubmitExercise">发布实验</el-button>
                         <el-button @click="resetForm('T_Exercise')">取消</el-button>
                     </el-form-item>
                     </el-form>                
@@ -135,6 +135,12 @@ export default {
         
         onSubmitExercise(){
             console.log('新增实验',this.T_Exercise)
+
+            // 检查必要值不能为空
+            if(this.T_Exercise.title === '' || this.T_Exercise.introduction === ''){
+                this.$message.error('添加失败，实验标题和简介不能为空！');
+                return
+            }
 
             // ——————————————与后台交互——————————————
 
