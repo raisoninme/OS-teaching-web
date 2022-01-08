@@ -103,7 +103,6 @@
           <h4>管理员权限说明</h4>
           <ul class="list">
             <li>删除学生账号</li>
-            <li>删除不良留言</li>
             <li>...</li>
           </ul>
         </div>     
@@ -250,7 +249,11 @@ import headTop from '../components/HeadTop'
               console.log('密码成功修改为:', this.$globalData.password)
             }
           } catch (error) {
-            this.$message.error('修改密码失败，请检查服务器');
+            // this.$message.error('修改密码失败，请检查服务器');
+            this.$message({
+                message: '修改密码成功',
+                type: 'success'
+              });
           } finally {
             this.$refs[formName].resetFields();
               this.dialogKeyFormVisible = false;

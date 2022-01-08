@@ -49,7 +49,7 @@ export default {
                 content:"不会做作业",
                 time: '2021/11/28 11:35:30',
                 relist:[{
-                    name:'X',
+                    name:'teacher',
                     role:'老师',
                     repto:'sherry',
                     content: '这你都不会？？',
@@ -102,7 +102,7 @@ export default {
             else{
                 //将reparea的提问content交给后端，并刷新当前页面，便于从后端抓取显示已提交的回复
                 var mytime=(new Date()).toLocaleString('chinese',{hour12:false});
-                this.quesList[Index].relist.push({name:'sherry',role:'学生',repto:'X',content:this.reparea,time:mytime});
+                this.quesList[Index].relist.push({name:'sherry',role:'学生',repto:'teacher',content:this.reparea,time:mytime});
                 this.$message({
                     message: '已成功回复!',
                     type: 'success'

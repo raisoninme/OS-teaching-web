@@ -10,7 +10,7 @@
 				<el-avatar :size="35" :src="require('../assets/img/'+this.rolePic+'.png')"></el-avatar>
 				</router-link>
 			</span>
-			<el-dropdown-menu slot="dropdown" v-if="this.rolePic=='学生'">
+			<el-dropdown-menu slot="dropdown" v-if="role === 1">
 				<el-dropdown-item class="clearfix" command="classInfo">
 				新课程提醒
 				<el-badge class="mark" :value=this.newClassNum />
@@ -27,7 +27,7 @@
 				退出登录
 				</el-dropdown-item>
 			</el-dropdown-menu>
-			<el-dropdown-menu slot="dropdown" v-else-if="this.rolePic=='老师'">
+			<el-dropdown-menu slot="dropdown" v-else-if="role !==1">
 				<el-dropdown-item class="clearfix" command="hwRep">
 				作业消息
 				<el-badge class="mark" :value=this.hwRepNum />
@@ -57,9 +57,10 @@
     	data(){
      		return {
 				newClassNum: 0,
-				hwRepNum: 1,
-				mgRepNum: 0,
-				rolePic:this.$globalData.roleArr[this.$globalData.role]
+				hwRepNum: 1,	//老师收到的作业被回复
+				mgRepNum: 0,    //留言板消息数量
+				rolePic: this.$globalData.roleArr[this.$globalData.role],
+				role: this.$globalData.role,
     		}
     	},
     	// created(){

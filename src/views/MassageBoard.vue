@@ -60,13 +60,27 @@ export default {
             isPraised: 0,
             // allmessages需要从后端调用，以下仅为前端展示
             allmessages:[
-                {
-                    memberName: "管理员",
-                    content:"发表留言时请注意礼貌用词哦~",
-                    createTime: '2021/11/28 11:35:30',
-                    praiseNum: 0,
-                    isUp: false,
-                },
+              {
+                memberName: "teacher",
+                content:"自己找书",
+                createTime: '2022/1/7 22:56:34',
+                praiseNum: 0,
+                isUp: false,
+              },
+              {
+                memberName: "sherry",
+                content:"有无hxd知道期末重点是哪几章？",
+                createTime: '2022/1/7 22:32:15',
+                praiseNum: 1,
+                isUp: false,
+              },
+              {
+                  memberName: "管理员",
+                  content:"发表留言时请注意礼貌用词哦~",
+                  createTime: '2021/11/28 11:35:30',
+                  praiseNum: 0,
+                  isUp: false,
+              },
             ]
         };
     },
