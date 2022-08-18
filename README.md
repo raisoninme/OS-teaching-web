@@ -41,14 +41,3 @@ npm run build --report
 ```
 
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-
-## 页面展示（11.28更新）
-![img](https://i.bmp.ovh/imgs/2021/11/6dc743f441c07a89.png)
-![img](https://i.bmp.ovh/imgs/2021/11/6975446c36ea6170.png)
-![img](https://i.bmp.ovh/imgs/2021/11/745b6c490d8d5e3a.png)
-![img](https://i.bmp.ovh/imgs/2021/11/c97754311bd5a0bd.png)
-![img](https://i.bmp.ovh/imgs/2021/11/9f43dde4a1af72d4.png)
-![img](https://i.bmp.ovh/imgs/2021/11/708dd7dc59a53660.png)
-![img](https://i.bmp.ovh/imgs/2021/11/a9980b8def248074.png)
-![img](https://i.bmp.ovh/imgs/2021/11/48eb1165f75cb51c.png)
-![img](https://i.bmp.ovh/imgs/2021/11/3fc6572c9b7e7efe.png)
